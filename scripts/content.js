@@ -182,6 +182,21 @@ const querySelectors = () =>
   });
 
 /**
+ * @description Listens pop state change
+ * @listens window#popstate
+ */
+
+window.addEventListener("popstate", () => {
+  dispatch({ hostname, type: "GET_CACHE" }, null, async ({ enabled }) => {
+    if (document.readyState === "complete" && enabled && !isPreview) {
+      fix();
+      clean();
+      setTimeout(clean, 2000);
+    }
+  });
+});
+
+/**
  * @description Listens DOM complete state
  * @listens document#readystatechange
  */
